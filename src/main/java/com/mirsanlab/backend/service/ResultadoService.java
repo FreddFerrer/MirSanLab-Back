@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface ResultadoService {
     void subirResultado(Long pacienteId, MultipartFile archivo);
+    void subirResultadoPorEmail(String emailDestino, MultipartFile archivo);
     Page<ResultadoResponseDto> obtenerResultadosPaciente(Long pacienteId, int page, int size);
     ResponseEntity<Resource> descargarResultado(Long resultadoId, Usuario paciente);
 

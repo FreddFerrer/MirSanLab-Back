@@ -9,8 +9,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/resultados")
@@ -21,10 +24,17 @@ public class ResultadosController {
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> subirResultado(
-            @RequestParam("pacienteId") Long pacienteId,
+            @RequestParam(value = "pacienteId") Optional<Long> pacienteId,
+            @RequestParam(value = "emailDestino", required = false) String emailDestino,
+            @RequestParam(value = "correoDestino", required = false) String correoDestino,
             @RequestParam("archivo") MultipartFile archivo) {
 
-        resultadoService.subirResultado(pacienteId, archivo);
+        if (pacienteId.isPresent()) {
+            resultadoService.subirResultado(pacienteId.get(), archivo);
+        } else {
+            String destino = StringUtils.hasText(emailDestino) ? emailDestino : correoDestino;
+            resultadoService.subirResultadoPorEmail(destino, archivo);
+        }
         return ResponseEntity.ok().build();
     }
 

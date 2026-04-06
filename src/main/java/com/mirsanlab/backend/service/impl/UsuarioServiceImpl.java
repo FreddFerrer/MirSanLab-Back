@@ -50,14 +50,11 @@ public class UsuarioServiceImpl implements UsuarioService {
                     new UsernamePasswordAuthenticationToken(dto.email(), dto.password())
             );
         } catch (AuthenticationException e) {
-            System.out.println("Fallo la autenticacion de " + dto.email());
             throw new InvalidCredentialsException();
         }
 
         Usuario usuario = usuarioRepository.findByEmail(dto.email())
                 .orElseThrow(() -> new UsuarioNoEncontradoException(dto.email()));
-
-        System.out.println("Usuario encontrado: " + usuario.getEmail());
 
         String token = jwtService.generarToken(usuario);
         return usuarioMapper.toLoginResponse(usuario, token);

@@ -10,6 +10,9 @@ import java.util.Optional;
 
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     Optional<Usuario> findByEmail(String email);
+    Optional<Usuario> findByEmailIgnoreCase(String email);
+    boolean existsByRol(Usuario.Rol rol);
+
     @Query("""
     SELECT u FROM Usuario u
     WHERE LOWER(u.nombre) LIKE LOWER(CONCAT('%', :query, '%'))

@@ -71,7 +71,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ArchivoInvalidoException.class)
     public ResponseEntity<CustomErrorResponse> handleArchivoInvalido(
-            FechaInvalidaException ex, HttpServletRequest request) {
+            ArchivoInvalidoException ex, HttpServletRequest request) {
 
         CustomErrorResponse response = new CustomErrorResponse(
                 HttpStatus.BAD_REQUEST.value(),
@@ -79,6 +79,30 @@ public class GlobalExceptionHandler {
                 request.getRequestURI()
         );
         return ResponseEntity.badRequest().body(response);
+    }
+
+    @ExceptionHandler(CorreoInvalidoException.class)
+    public ResponseEntity<CustomErrorResponse> handleCorreoInvalido(
+            CorreoInvalidoException ex, HttpServletRequest request) {
+
+        CustomErrorResponse response = new CustomErrorResponse(
+                HttpStatus.BAD_REQUEST.value(),
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+        return ResponseEntity.badRequest().body(response);
+    }
+
+    @ExceptionHandler(EnvioCorreoException.class)
+    public ResponseEntity<CustomErrorResponse> handleEnvioCorreo(
+            EnvioCorreoException ex, HttpServletRequest request) {
+
+        CustomErrorResponse response = new CustomErrorResponse(
+                HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

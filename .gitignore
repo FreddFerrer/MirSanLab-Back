@@ -3,6 +3,21 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+out/
+logs/
+*.log
+
+# Local env and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.jks
+
+# Local generated/result files
+archivos/
 
 ### STS ###
 .apt_generated
