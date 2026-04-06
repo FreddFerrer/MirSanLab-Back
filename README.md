@@ -32,11 +32,27 @@ Copy-Item .env.example .env
 - JWT (`JWT_SECRET`)
 - SMTP (`SPRING_MAIL_*`)
 - bootstrap admin (`BOOTSTRAP_ADMIN_*`)
+- CORS (`APP_CORS_*`)
+- puertos (`BACKEND_PORT`, `SERVER_PORT`)
+- almacenamiento de PDFs (`RESULTADOS_STORAGE_*`)
 
 3. Levantar:
 ```bash
 docker compose up --build
 ```
+
+## Variables de entorno de despliegue
+Estas variables permiten cambiar comportamiento sin tocar codigo:
+- `APP_CORS_ALLOWED_ORIGINS` (lista separada por coma)
+- `APP_CORS_ALLOWED_ORIGIN_PATTERNS` (opcional, para comodines)
+- `APP_CORS_ALLOWED_METHODS`
+- `APP_CORS_ALLOWED_HEADERS`
+- `APP_CORS_ALLOW_CREDENTIALS`
+- `APP_CORS_MAX_AGE`
+- `RESULTADOS_STORAGE_PATH` (ruta dentro del contenedor/host donde se guardan PDFs)
+- `RESULTADOS_STORAGE_HOST_PATH` (carpeta local mapeada por Docker)
+- `SERVER_PORT` (puerto interno de Spring Boot)
+- `BACKEND_PORT` (puerto externo publicado por Docker)
 
 ## Bootstrap del admin (primer arranque)
 La app puede crear un admin automaticamente solo la primera vez.
@@ -159,4 +175,3 @@ Variables de coleccion esperadas:
 - no versionar `.env`
 - no hardcodear secretos en `docker-compose.yml`
 - rotar secretos si alguna vez se expusieron (JWT, SMTP, DB)
-

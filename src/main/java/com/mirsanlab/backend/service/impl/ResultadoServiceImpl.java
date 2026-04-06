@@ -69,6 +69,9 @@ public class ResultadoServiceImpl implements ResultadoService {
     @Value("${mail.contact.phone:}")
     private String telefonoContacto;
 
+    @Value("${resultados.storage.path:archivos}")
+    private String resultadosStoragePath;
+
     @Override
     public void subirResultado(Long pacienteId, MultipartFile archivo) {
         Usuario paciente = usuarioRepository.findById(pacienteId)
@@ -196,7 +199,7 @@ public class ResultadoServiceImpl implements ResultadoService {
 
     private Path guardarArchivo(Long pacienteId, MultipartFile archivo) {
         String nombreArchivo = "resultado_" + pacienteId + "_" + System.currentTimeMillis() + ".pdf";
-        Path path = Paths.get("archivos", nombreArchivo);
+        Path path = Paths.get(resultadosStoragePath, nombreArchivo);
 
         try {
             Files.createDirectories(path.getParent());
